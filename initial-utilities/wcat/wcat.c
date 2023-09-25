@@ -1,24 +1,32 @@
 #include <stdio.h>
 #include <string.h>
-#define MAX 100
+#include <stdlib.h>
+#define MAX 2000
 
 int main(int argc, char *argv[]) {
     
-    if(argc < 2) {
-        printf("Choose file\n");
-        return (1);
-    }
-
-    FILE *fp = fopen(argv[1], "r");
-
-    if (fp == NULL) {
-        printf("cannot open file\n");
-        return (1);
+    if (argc < 2) {
+        return (0);
     }
 
     char buf[MAX];
-    fgets(buf, MAX, fp);
-    printf("string: %s", buf);
 
+    for(int i = 1; i < argc; i++) {
+
+        FILE *fp = fopen(argv[i], "r");
+        
+        if (fp == NULL) {
+            printf("wcat: cannot open file\n");
+            return (1);
+        }
+
+        while(fgets(buf, MAX, fp) != NULL) {
+            printf("%s", buf);
+        }
+
+        if(i < argc) {
+            fclose(fp);
+        }
+    }
     return 0;
 }
